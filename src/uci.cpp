@@ -98,20 +98,15 @@ UCI::UCI(int argc, char** argv) :
     search_clear();  // After threads are up
 }
 
-void UCI::loop() {
-
-    Position     pos;
+void UCI::loop(int argc, char** argv, Position& pos, StateListPtr& states) {
     std::string  token, cmd;
-    StateListPtr states(new std::deque<StateInfo>(1));
-
-    pos.set(StartFEN, false, &states->back());
-
-    for (int i = 1; i < cli.argc; ++i)
-        cmd += std::string(cli.argv[i]) + " ";
+    
+    for (int i = 1; i < argc; ++i)
+        cmd += std::string(argv[i]) + " ";
 
     do
     {
-        if (cli.argc == 1
+        if (argc == 1
             && !getline(std::cin, cmd))  // Wait for an input or an end-of-file (EOF) indication
             cmd = "quit";
 
@@ -183,7 +178,7 @@ void UCI::loop() {
             sync_cout << "Unknown command: '" << cmd << "'. Type help for more information."
                       << sync_endl;
 
-    } while (token != "quit" && cli.argc == 1);  // The command-line arguments are one-shot
+    } while (token != "quit" && argc == 1);  // The command-line arguments are one-shot
 }
 
 Search::LimitsType UCI::parse_limits(const Position& pos, std::istream& is) {

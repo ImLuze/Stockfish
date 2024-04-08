@@ -40,7 +40,7 @@ class UCI {
    public:
     UCI(int argc, char** argv);
 
-    void loop();
+    void loop(int argc, char** argv, Position& pos, StateListPtr& states);
 
     static int         to_cp(Value v, const Position& pos);
     static std::string to_score(Value v, const Position& pos);

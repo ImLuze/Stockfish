@@ -38,7 +38,5 @@ int main(int argc, char* argv[]) {
 
     Tune::init(uci.options);
 
-    uci.loop();
-
     return 0;
 }
