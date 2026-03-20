@@ -50,8 +50,11 @@ class NativeThread {
         pthread_attr_setstacksize(attr, TH_STACK_SIZE);
 
         auto start_routine = [](void* ptr) -> void* {
+            // Set QoS to utility so iOS energy/thermal management
+            // can deprioritise search threads without starving them.
+            pthread_set_qos_class_self_np(QOS_CLASS_UTILITY, 0);
+
             auto f = reinterpret_cast<std::function<void()>*>(ptr);
-            // Call the function
             (*f)();
             delete f;
             return nullptr;
